@@ -122,4 +122,4 @@ a:hover {
 
 ## Note
 
-- The out not well structured
+- CSS output not well structured
