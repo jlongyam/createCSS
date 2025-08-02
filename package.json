@@ -1,16 +1,19 @@
 {
-  "name": "createcss",
+  "name": "create-css",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/createCSS.js",
   "type": "module",
   "directories": {
-    "test": "tests"
+    "src": "src"
   },
   "scripts": {
-    "test": "node ./tests/createCSS.test.js"
+    "test": "node ./tests/basic.test.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "css in js",
+    "jss"
+  ],
+  "author": "jlongyam",
   "license": "MIT"
 }
