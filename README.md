@@ -122,6 +122,4 @@ a:hover {
 
 ## Note
 
-There still a **bugs** unfixed:
-
 - The out not well structured
