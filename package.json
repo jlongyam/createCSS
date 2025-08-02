@@ -8,7 +8,7 @@
     "src": "src"
   },
   "scripts": {
-    "test": "node ./tests/basic.test.js"
+    "test": "node ./tests/all.test.js"
   },
   "keywords": [
     "css in js",
