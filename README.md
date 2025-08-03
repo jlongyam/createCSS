@@ -4,6 +4,8 @@ Traditional style __CSS in JS__ ;-)
 
 The aim is to produce __legacy__ css string output.
 
+In short it's __ES5__ friendly.
+
 ## Usage
 
 ### 1. Basic
