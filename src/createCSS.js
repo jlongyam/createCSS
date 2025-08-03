@@ -1,111 +1,71 @@
 function createCSS(rules) {
   const output = [];
-  const regularRules = {};
-  const atRules = {};
 
-  // Process regular CSS rules (non @-rules)
-  function processRegularRule(selector, styles, parent = '') {
-    const resolvedSelector = selector.includes('&')
-      ? selector.replace(/&/g, parent)
-      : parent ? `${parent} ${selector}` : selector;
+  function processRules(selector, styles, context = { mediaStack: [], indentLevel: 0 }) {
+    const { mediaStack, indentLevel } = context;
+    const propertyIndent = '  '.repeat(indentLevel + mediaStack.length + 1);
+    const selectorIndent = '  '.repeat(indentLevel + mediaStack.length);
 
-    if (!regularRules[resolvedSelector]) {
-      regularRules[resolvedSelector] = [];
-    }
+    // Separate properties from nested rules
+    const properties = [];
+    const nestedRules = [];
 
     for (const [key, value] of Object.entries(styles)) {
-      if (typeof value === 'object' && value !== null) {
-        processRegularRule(key, value, resolvedSelector);
+      if (key.startsWith('@')) {
+        nestedRules.push({ type: 'at-rule', key, value });
+      } else if (typeof value === 'object' && value !== null) {
+        nestedRules.push({ type: 'selector', key, value });
       } else {
         const prop = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-        regularRules[resolvedSelector].push(`${prop}: ${value};`);
+        properties.push(`${propertyIndent}${prop}: ${value};`);
       }
     }
-  }
 
-  // Special processor for @-rules
-  function processAtRule(atRule, styles) {
-    if (!atRules[atRule]) {
-      atRules[atRule] = {};
+    // Output current selector block
+    if (properties.length > 0 || nestedRules.length === 0) {
+      // Output media queries if any
+      for (let i = 0; i < mediaStack.length; i++) {
+        output.push(`${'  '.repeat(indentLevel + i)}${mediaStack[i]} {`);
+      }
+
+      // Output the selector block
+      output.push(`${selectorIndent}${selector} {`);
+      output.push(...properties);
+      output.push(`${selectorIndent}}`);
+
+      // Close media queries if any
+      for (let i = mediaStack.length - 1; i >= 0; i--) {
+        output.push(`${'  '.repeat(indentLevel + i)}}`);
+      }
     }
 
-    for (const [selector, ruleStyles] of Object.entries(styles)) {
-      if (selector.startsWith('@')) {
-        // Nested at-rule
-        processAtRule(selector, ruleStyles);
+    // Process nested rules
+    for (const rule of nestedRules) {
+      if (rule.type === 'at-rule') {
+        const newContext = {
+          mediaStack: [...mediaStack, rule.key],
+          indentLevel: indentLevel
+        };
+        processRules(selector, rule.value, newContext);
       } else {
-        // Regular selector inside at-rule
-        const resolvedSelector = selector.includes('&')
-          ? selector.replace(/&/g, '')
-          : selector;
-
-        if (!atRules[atRule][resolvedSelector]) {
-          atRules[atRule][resolvedSelector] = [];
-        }
-
-        for (const [prop, value] of Object.entries(ruleStyles)) {
-          if (typeof value === 'object' && value !== null) {
-            // Handle nested styles for this selector
-            const nestedSelector = prop.includes('&')
-              ? prop.replace(/&/g, resolvedSelector)
-              : `${resolvedSelector} ${prop}`;
-            
-            if (!atRules[atRule][nestedSelector]) {
-              atRules[atRule][nestedSelector] = [];
-            }
-            
-            for (const [nestedProp, nestedValue] of Object.entries(value)) {
-              const cssProp = nestedProp.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-              atRules[atRule][nestedSelector].push(`${cssProp}: ${nestedValue};`);
-            }
-          } else {
-            const cssProp = prop.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-            atRules[atRule][resolvedSelector].push(`${cssProp}: ${value};`);
-          }
-        }
+        const nestedSelector = rule.key.includes('&')
+          ? rule.key.replace(/&/g, selector)
+          : `${selector} ${rule.key}`;
+        processRules(nestedSelector, rule.value, {
+          mediaStack,
+          indentLevel: mediaStack.length > 0 ? indentLevel : 0
+        });
       }
     }
   }
 
-  // Process all rules
+  // Process all top-level rules
   for (const [selector, styles] of Object.entries(rules)) {
     if (selector.startsWith('@')) {
-      processAtRule(selector, styles);
+      processRules('', styles, { mediaStack: [selector], indentLevel: 0 });
     } else {
-      processRegularRule(selector, styles);
+      processRules(selector, styles, { mediaStack: [], indentLevel: 0 });
     }
-  }
-
-  // Output regular rules
-  const sortedRegular = Object.keys(regularRules).sort();
-  for (const selector of sortedRegular) {
-    const lines = regularRules[selector];
-    if (lines.length === 0) continue;
-    output.push(`${selector} {`);
-    output.push(...lines.map(line => `  ${line}`));
-    output.push('}');
-  }
-
-  // Output at-rules
-  const sortedAtRules = Object.keys(atRules).sort();
-  for (const atRule of sortedAtRules) {
-    const selectors = atRules[atRule];
-    const hasContent = Object.values(selectors).some(lines => lines.length > 0);
-    if (!hasContent) continue;
-
-    output.push(`${atRule} {`);
-
-    // Output nested selectors
-    const sortedSelectors = Object.keys(selectors).sort();
-    for (const selector of sortedSelectors) {
-      const lines = selectors[selector];
-      if (lines.length === 0) continue;
-      output.push(`  ${selector} {`);
-      output.push(...lines.map(line => `    ${line}`));
-      output.push('  }');
-    }
-
-    output.push('}');
   }
 
   return output.join('\n').replace(/\n{3,}/g, '\n\n').trim();
