@@ -120,4 +120,4 @@ a:hover {
 }
 ```
 
-LICESE [MIT](LICENSE)
+[MIT](LICENSE) License.
