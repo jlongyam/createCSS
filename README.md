@@ -25,52 +25,22 @@ body {
 }
 ```
 
-### 2. Complex
+### 2. Nested and
 
 input JS:
 
 ```js
 createCSS({
-  a: {
-    color: 'gray',
-    '&:hover': {
-      color: 'silver'
-    }
-  },
-  '.btn': {
-    backgroundColor: 'blue',
-    color: 'white',
-    '&:hover': {
-      backgroundColor: 'darkblue'
+  '.nav': {
+    border: '2px solid red',
+    '&:hover .item': {
+      color: 'red'
     },
-    '&:active': {
-      color: 'lightblue'
-    }
-  },
-  '@media (max-width: 768px)': {
-    '.nav': {
-      'padding': '5px',
-      '&:hover .item': {
-        color: 'red'
-      }
+    '&.active': {
+      fontWeight: 'bold'
     },
-    '.btn': {
-      fontSize: '14px'
-    }
-  },
-  '@keyframes fadeIn': {
-    '0%': {
-      opacity: '0'
-    },
-    '100%': {
-      opacity: '1'
-    }
-  },
-  '@media (min-width: 1024px)': {
-    '.nav': {
-      '&.active': {
-        fontWeight: 'bold'
-      }
+    '@media (max-width: 768px)': {
+      borderColor: 'blue'
     }
   }
 })
@@ -78,44 +48,46 @@ createCSS({
 CSS output:
 
 ```css
-.btn {
-  background-color: blue;
-  color: white;
+.nav {
+  border: 2px solid red;
 }
-.btn:active {
-  color: lightblue;
+.nav:hover .item {
+  color: red;
 }
-.btn:hover {
-  background-color: darkblue;
-}
-a {
-  color: gray;
-}
-a:hover {
-  color: silver;
-}
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.nav.active {
+  font-weight: bold;
 }
 @media (max-width: 768px) {
-  .btn {
-    font-size: 14px;
-  }
-  .nav {
-    padding: 5px;
-  }
-  .nav:hover .item {
-    color: red;
+ .nav {
+    border-color: blue;
   }
 }
+```
+
+### 3. Nested at
+
+Input JS:
+
+```js
+createCSS({
+  'div': {
+    border: '2px solid gray',
+    '@media (min-width: 1024px)': {
+      border: '0'
+    }
+  }
+})
+```
+
+CSS output:
+
+```css
+div {
+  border: 2px solid gray;
+}
 @media (min-width: 1024px) {
-  .nav.active {
-    font-weight: bold;
+ div {
+    border: 0;
   }
 }
 ```
