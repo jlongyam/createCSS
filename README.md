@@ -120,8 +120,4 @@ a:hover {
 }
 ```
 
-## Note
-
-- CSS output not well structured.
-- Not properly tested.
-- Nested rules @media not supported.
+LICESE [MIT](LICENSE)
