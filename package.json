@@ -1,27 +1,32 @@
 {
-  "type": "module",
-  "name": "@jlongyam/creat-css",
-  "description": "CSS String generator",
+  "name": "@jlongyam/css",
   "version": "0.1.0",
-  "homepage": "https://github.com/jlongyam/createCSS#readme",
-  "license": "MIT",
-  "exports": "./dist/index.es.js",
-  "main": "./dist/index.cjs.js",
-  "browser": "./dist/index.umd.js",
-  "bugs": {
-    "url": "https://github.com/jlongyam/createCSS/issues"
+  "description": "CSS String generator",
+  "keywords": [
+    "'css in js', jss"
+  ],
+  "type": "module",
+  "main": "./src/createCSS.js",
+  "browser": "./dist/createCSS.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/createCSS.js",
+      "require": "./dist/createCSS.cjs.js"
+    }
   },
   "author": {
     "name": "jlongyam",
     "url": "https://github.com/jlongyam"
   },
+  "homepage": "https://github.com/jlongyam/createCSS#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/jlongyam/createCSS.git"
   },
-  "keywords": [
-    "'css in js', jss"
-  ],
+  "bugs": {
+    "url": "https://github.com/jlongyam/createCSS/issues"
+  },
+  "license": "MIT",
   "scripts": {
     "test": "node ./tests/all.test.js"
   }
