@@ -59,4 +59,12 @@ css = createCSS({
   }
 })
 
+css = createCSS({
+  'div': {
+    border: '2px solid gray',
+    '@media (min-width: 1024px)': {
+      border: '0'
+    }
+  }
+})
 console.log(css);
