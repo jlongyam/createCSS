@@ -110,7 +110,7 @@ function createCSS(rules) {
       }
 
       // Output the selector block
-      output.push(("" + (selectorIndent.replace(' ', '')) + selector + " {"));
+      output.push(("" + (selectorIndent) + selector + " {"));
       properties.forEach(function (prop) { return output.push(prop); });
       output.push((selectorIndent + "}"));
 

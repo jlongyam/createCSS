@@ -84,7 +84,7 @@ div {
   border: 2px solid gray;
 }
 @media (min-width: 1024px) {
- div {
+  div {
     border: 0;
   }
 }
