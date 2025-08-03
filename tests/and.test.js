@@ -9,7 +9,7 @@ let css = createCSS({
     '&.active': {
       fontWeight: 'bold'
     },
-    '@media (max-width: 768px)': {
+    '.other &': {
       borderColor: 'blue'
     }
   }

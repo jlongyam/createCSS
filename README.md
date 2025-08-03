@@ -39,7 +39,7 @@ createCSS({
     '&.active': {
       fontWeight: 'bold'
     },
-    '@media (max-width: 768px)': {
+    '.other &': {
       borderColor: 'blue'
     }
   }
@@ -57,10 +57,8 @@ CSS output:
 .nav.active {
   font-weight: bold;
 }
-@media (max-width: 768px) {
- .nav {
-    border-color: blue;
-  }
+.other .nav {
+  border-color: blue;
 }
 ```
 
