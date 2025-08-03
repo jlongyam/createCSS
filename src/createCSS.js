@@ -29,7 +29,8 @@ function createCSS(rules) {
       }
 
       // Output the selector block
-      output.push(`${selectorIndent}${selector} {`);
+      // bug fixed: add `.replace(' ','')`
+      output.push(`${selectorIndent.replace(' ','')}${selector} {`);
       output.push(...properties);
       output.push(`${selectorIndent}}`);
 
