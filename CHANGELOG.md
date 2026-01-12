@@ -1,4 +1,6 @@
-#### 0.1.0 (2025-08-06)
+#### 0.1.0 (2026-01-12)
 
-#### 0.1.1 (2025-08-06)
+##### New Features
+
+*  Add changelog generation ([d8e8d2db](https://github.com/jlongyam/createCSS/commit/d8e8d2dbaa5b2ac95f5cc21fdf27d71a3b44830e))
 
