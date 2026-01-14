@@ -1,3 +1,40 @@
+## [0.2.0] - 2026-01-14
+
+### Added
+- feat: Add missing entry for createStyle function in changelog
+- feat: Update changelog date and add createStyle function
+- feat: Add changelog generation
+- Add package-lock.json to .gitignore
+- Add .gitignore
+- Add at selector converter
+
+### Fixed
+- Fix indent
+- Fix bug at line 33
+- Fix indents
+- Bug at and rules 'and.test.js'
+- Fix @media rules
+- Bug
+- Fix 1
+
+### Changed
+- Update package.json and README
+- Update README
+- Update README
+- Update README
+- Downgrade to ES5 style
+- Update test
+- Delete unecesary files
+- 
+- Update README
+- Remove node_modules
+- 
+- Update Note section in README
+- 
+- 
+- Update README section Note
+- Create new 'createCSS.js' file
+
 #### 0.1.0 (2026-01-12)
 
 ##### New Features
